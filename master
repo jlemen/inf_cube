@@ -1,0 +1,37 @@
+#include <FastLED.h>
+
+#define LED_PIN 7             //data out pin on arduino
+#define NUM_LEDS 20           //number of LEDs being used
+
+CRGB leds[NUM_LEDS];          //initializes LED array
+uint8_t h[NUM_LEDS];          //initializes LED color code array
+uint8_t maxBright = 120;      //brightness of LEDs(0-255)
+uint8_t s = 200;              //saturation color code(0-255)
+uint8_t v = maxBright;        //line 8
+int rainbowConstant = 10;     //how aggressive color change is from adjacent LEDs (1-inf)
+int changeConstant = 5;       //color change step of h[0]
+
+
+void setup() {                //setup function
+
+  FastLED.addLeds<WS2812, LED_PIN, GRB>(leds, NUM_LEDS);    //initialize LED strip
+//FastLED.setBrightness(maxBright);
+  h[0] = 0;
+
+}
+
+void loop() {                 //main loop
+  for (int i = 0; i <= NUM_LEDS-1; i++){
+    leds[i].setHSV(h[0]+(i*rainbowConstant),s,v);
+    
+    FastLED.show();
+ //   delay(20);
+  }
+//  for (int i = NUM_LEDS-1; i >= 0; i--){Z
+//    leds[i] = CRGB(255,0,0);
+//    FastLED.show();
+//    delay(40);
+//  }
+h[0] += changeConstant;
+//delay(10);
+}
